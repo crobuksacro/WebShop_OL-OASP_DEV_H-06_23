@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Shared_OL_OASP_DEV_H_06_23.Interfaces;
 using WebShop_OL_OASP_DEV_H_06_23.Models.Dbo.Common;
 using WebShop_OL_OASP_DEV_H_06_23.Models.Dbo.CompanyModels;
+using WebShop_OL_OASP_DEV_H_06_23.Models.Dbo.ProductModels;
 using WebShop_OL_OASP_DEV_H_06_23.Models.Dbo.UserModel;
 
 
@@ -118,6 +119,9 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Data
 
         #region CompanyModels
         public DbSet<Company> Companys { get; set; }
+        #endregion
+        #region ProductModels
+        public DbSet<ProductCategory> ProductCategorys { get; set; }
         #endregion
 
     }
