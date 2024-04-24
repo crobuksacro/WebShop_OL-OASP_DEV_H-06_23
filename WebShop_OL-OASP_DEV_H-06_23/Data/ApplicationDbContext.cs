@@ -124,5 +124,9 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Data
         public DbSet<ProductCategory> ProductCategorys { get; set; }
         #endregion
 
+        #region ProductModels
+        public DbSet<ProductCategory> ProductCategorys { get; set; }
+        #endregion
+
     }
 }
