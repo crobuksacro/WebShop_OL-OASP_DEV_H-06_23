@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Shared_OL_OASP_DEV_H_06_23.Models.Dto;
 using WebShop_OL_OASP_DEV_H_06_23.Data;
 using WebShop_OL_OASP_DEV_H_06_23.Models.Dbo.UserModel;
 using WebShop_OL_OASP_DEV_H_06_23.Services.Implementations;
@@ -19,6 +20,12 @@ namespace WebShop_OL_OASP_DEV_H_06_23
             
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
+
+
+            builder.Services.Configure<AppSettings>(builder.Configuration);
+            var cfg = builder.Configuration.Get<AppSettings>();
+
+            
 
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
