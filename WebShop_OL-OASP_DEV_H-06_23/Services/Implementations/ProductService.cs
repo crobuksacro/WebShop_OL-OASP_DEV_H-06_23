@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Shared_OL_OASP_DEV_H_06_23.Models.ViewModel.ProductModels;
 using WebShop_OL_OASP_DEV_H_06_23.Data;
-using WebShop_OL_OASP_DEV_H_06_23.Models.Dbo.ProductModels;
 
 namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
 {
