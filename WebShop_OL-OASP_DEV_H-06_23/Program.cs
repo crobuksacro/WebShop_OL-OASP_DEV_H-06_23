@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Shared_OL_OASP_DEV_H_06_23.Models.Dto;
 using WebShop_OL_OASP_DEV_H_06_23.Data;
+using WebShop_OL_OASP_DEV_H_06_23.Mapping;
 using WebShop_OL_OASP_DEV_H_06_23.Models.Dbo.UserModel;
 using WebShop_OL_OASP_DEV_H_06_23.Services.Implementations;
 using WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces;
@@ -30,8 +31,8 @@ namespace WebShop_OL_OASP_DEV_H_06_23
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddUserManager<ApplicationUser>()
+
+            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)                
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
@@ -40,7 +41,10 @@ namespace WebShop_OL_OASP_DEV_H_06_23
             builder.Services.AddScoped<ICommonService, CommonService>();
             builder.Services.AddScoped<IAdminService, AdminService>();
 
+            // Add AutoMapper
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
 
+            builder.Services.AddRazorPages();
 
             builder.Services.AddControllersWithViews();
 
