@@ -37,7 +37,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23
 
 
 
-
+            builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<ICommonService, CommonService>();
             builder.Services.AddScoped<IAdminService, AdminService>();
 
@@ -71,7 +71,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Admin}/{action=Index}/{id?}");
             app.MapRazorPages();
 
             app.Run();

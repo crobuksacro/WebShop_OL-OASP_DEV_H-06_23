@@ -30,7 +30,9 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
         /// <returns></returns>
         public async Task<List<ProductCategoryViewModel>> GetProductCategories()
         {
-            var dbos = await db.ProductCategorys.Where(y => y.Valid).ToListAsync();
+            var dbos = await db.ProductCategorys
+                .Include(y=>y.ProductItems)
+                .Where(y => y.Valid).ToListAsync();
             return dbos.Select(y => mapper.Map<ProductCategoryViewModel>(y)).ToList();
 
         }
@@ -49,7 +51,9 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
                 offset = appSettings.PaginationOffset;
             }
 
-            var baseQuery = db.ProductCategorys.Where(y => y.Valid);
+            var baseQuery = db.ProductCategorys
+                .Include(y=>y.ProductItems)
+                .Where(y => y.Valid);
 
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
@@ -116,7 +120,9 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
         /// <returns></returns>
         public async Task<ProductCategoryViewModel> GetProductCategory(long id)
         {
-            var dbo = await db.ProductCategorys.FindAsync(id);
+            var dbo = await db.ProductCategorys
+                .Include(y=>y.ProductItems)
+                .FirstOrDefaultAsync(y=>y.Id == id);
             return mapper.Map<ProductCategoryViewModel>(dbo);
 
         }
@@ -134,6 +140,60 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
 
         }
 
+        /// <summary>
+        /// Add product item
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<ProductItemViewModel> AddProductItem(ProductItemBinding model)
+        {      
+            var dbo = mapper.Map<ProductItem>(model);        
+            db.ProductItems.Add(dbo);
+            await db.SaveChangesAsync();
+            return mapper.Map<ProductItemViewModel>(dbo);
+        }
+
+        /// <summary>
+        /// Get product item by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<ProductItemViewModel> GetProductItem(long id)
+        {
+            var dbo = await db.ProductItems.FindAsync(id);
+            return mapper.Map<ProductItemViewModel>(dbo);
+
+        }
+
+        /// <summary>
+        /// Delte product item
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<ProductItemViewModel> DeleteProductItem(long id)
+        {
+            var dbo = await db.ProductItems.FindAsync(id);
+            dbo.Valid = false;
+            await db.SaveChangesAsync();
+            return mapper.Map<ProductItemViewModel>(dbo);
+
+        }
+        /// <summary>
+        /// Update product item
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<ProductItemViewModel> UpdateProductItem(ProductItemUpdateBinding model)
+        {
+            //var dbo = await db.ProductItems
+            //    .Include(y=>y.Company)
+            //    .FirstOrDefaultAsync(y => y.Id == model.Id);
+
+            var dbo = await db.ProductItems.FindAsync(model.Id);
+            mapper.Map(model, dbo);
+            await db.SaveChangesAsync();
+            return mapper.Map<ProductItemViewModel>(dbo);
+        }
         //Unit testovi
     }
 }
