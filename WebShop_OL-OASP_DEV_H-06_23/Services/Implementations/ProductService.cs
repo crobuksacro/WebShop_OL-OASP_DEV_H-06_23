@@ -41,7 +41,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
                 offset = appSettings.PaginationOffset;
             }
 
-            var baseQuery = db.Set<ProductCategory>().Where(y => y.Valid);
+            var baseQuery = db.ProductCategorys.Where(y => y.Valid);
 
             if(!string.IsNullOrWhiteSpace(searchTerm))
             {
