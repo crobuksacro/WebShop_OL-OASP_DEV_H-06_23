@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Shared_OL_OASP_DEV_H_06_23.Models.Binding.Common;
 using Shared_OL_OASP_DEV_H_06_23.Models.Binding.CompanyModels;
+using Shared_OL_OASP_DEV_H_06_23.Models.Binding.ProductModels;
 using Shared_OL_OASP_DEV_H_06_23.Models.ViewModel.Common;
 using Shared_OL_OASP_DEV_H_06_23.Models.ViewModel.CompanyModels;
 using Shared_OL_OASP_DEV_H_06_23.Models.ViewModel.ProductModels;
@@ -21,9 +22,13 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Mapping
             CreateMap<Company, CompanyViewModel>();
             CreateMap<CompanyUpdateBinding, Company>();
 
-
+            
             CreateMap<ProductCategory, ProductCategoryViewModel>();
-
+            CreateMap<ProductCategoryBinding, ProductCategory>();
+            CreateMap<ProductCategoryUpdateBinding, ProductCategory>();
+            CreateMap<ProductItem, ProductItemViewModel>();
+            CreateMap<ProductItemBinding, ProductItem>();
+            CreateMap<ProductItemUpdateBinding, ProductItem>();
         }
     }
 }

@@ -2,7 +2,6 @@
 using Shared_OL_OASP_DEV_H_06_23.Models.Binding.Common;
 using Shared_OL_OASP_DEV_H_06_23.Models.ViewModel.Common;
 using WebShop_OL_OASP_DEV_H_06_23.Data;
-using WebShop_OL_OASP_DEV_H_06_23.Models.Dbo.Common;
 using WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces;
 
 namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
