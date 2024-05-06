@@ -39,5 +39,24 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
             return View(productCategory);
         }
 
+        public async Task<IActionResult> AddProductCategory(long categoryId)
+        {
+            var model = new ProductItemBinding
+            {
+                ProductCategoryId = categoryId
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddProductCategory(ProductItemBinding model)
+        {
+
+            await _productService.AddProductItem(model);
+
+            return RedirectToAction("Details", new { id = model.ProductCategoryId });
+        }
+
     }
 }

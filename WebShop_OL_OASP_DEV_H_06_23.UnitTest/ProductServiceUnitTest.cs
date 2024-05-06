@@ -102,17 +102,17 @@ namespace WebShop_OL_OASP_DEV_H_06_23.UnitTest
         {
             var addedItem = await productService.AddProductItem(new ProductItemBinding
             {
-                Description = TestString,
+                Description = TestString + "x",
                 Name = TestString,
                 Price = 1233,
-                ProductCategoryId = ProductCategories[0].Id,
+                ProductCategoryId = ProductCategories[12].Id,
                 Quantity = 10
             });
             Assert.NotNull(addedItem);
 
 
             await productService.DeleteProductItem(addedItem.Id);
-            var productCategory = await productService.GetProductCategory(ProductCategories[0].Id);
+            var productCategory = await productService.GetProductCategory(ProductCategories[12].Id);
             var productItem = productCategory.ProductItems.FirstOrDefault(y => y.Id == addedItem.Id);
             Assert.Null(productItem);
 
