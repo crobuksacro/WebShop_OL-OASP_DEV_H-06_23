@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebShop_OL_OASP_DEV_H_06_23.Services.Implementations;
-using WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces;
+﻿using WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces;
 
 namespace WebShop_OL_OASP_DEV_H_06_23.UnitTest
 {
