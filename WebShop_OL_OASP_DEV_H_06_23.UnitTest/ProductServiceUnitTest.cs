@@ -49,6 +49,21 @@ namespace WebShop_OL_OASP_DEV_H_06_23.UnitTest
 
         }
 
+        [Fact]
+        public async void AddProductCategory_AddsNewEntityToDb_ReturnsViewModel()
+        {
 
+            var response = await productService.AddProductCategory(new ProductCategoryBinding
+            {
+                Name = TestString,
+                Description = TestString,
+            });
+
+            Assert.NotNull(response);
+            Assert.Equal(TestString, response.Description);
+            Assert.Equal(TestString, response.Name);
+
+
+        }
     }
 }
