@@ -1,8 +1,9 @@
-﻿using WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces;
+﻿using Shared_OL_OASP_DEV_H_06_23.Models.Binding.ProductModels;
+using WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces;
 
 namespace WebShop_OL_OASP_DEV_H_06_23.UnitTest
 {
-    public class ProductServiceUnitTest: WebShopSetup
+    public class ProductServiceUnitTest : WebShopSetup
     {
         private readonly IProductService productService;
 
@@ -22,13 +23,32 @@ namespace WebShop_OL_OASP_DEV_H_06_23.UnitTest
             Assert.NotEmpty(response.ProductCategorys);
             Assert.Single(response.ProductCategorys);
 
-            response = await productService.GetProductCategories(1,offset: 30);
+            response = await productService.GetProductCategories(1, offset: 30);
 
             Assert.NotEmpty(response.ProductCategorys);
             Assert.Equal(30, response.ProductCategorys.Count);
 
 
         }
+
+        [Fact]
+        public async void UpdateProductCategory_UpdatesElementInDb_ReturnsUpdatedItem()
+        {
+
+            var response = await productService.UpdateProductCategory(new ProductCategoryUpdateBinding
+            {
+                Id = ProductCategories[20].Id,
+                Description = TestString,
+                Name = TestString,
+            });
+
+            Assert.NotNull(response);
+            Assert.Equal(TestString, response.Description);
+            Assert.Equal(TestString, response.Name);
+
+
+        }
+
 
     }
 }
