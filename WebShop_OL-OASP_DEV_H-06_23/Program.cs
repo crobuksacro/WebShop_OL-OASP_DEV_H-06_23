@@ -24,7 +24,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23
 
 
             builder.Services.Configure<AppSettings>(builder.Configuration);
-            var cfg = builder.Configuration.Get<AppSettings>();
+            //var cfg = builder.Configuration.Get<AppSettings>();
 
             
 
