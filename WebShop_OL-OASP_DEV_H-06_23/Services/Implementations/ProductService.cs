@@ -124,10 +124,9 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
         public async Task<ProductCategoryViewModel> GetProductCategory(long id)
         {
             var dbo = await db.ProductCategorys
-                .Include(y=>y.ProductItems)
+                .Include(y=>y.ProductItems.Where(item=> item.Valid))
                 .FirstOrDefaultAsync(y=>y.Id == id);
 
-            dbo.ProductItems = dbo.ProductItems.Where(y => y.Valid).ToList();
 
             return mapper.Map<ProductCategoryViewModel>(dbo);
 
