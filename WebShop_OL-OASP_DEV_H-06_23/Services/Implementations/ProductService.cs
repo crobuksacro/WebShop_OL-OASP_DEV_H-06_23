@@ -28,11 +28,14 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
         /// Get product Categorys
         /// </summary>
         /// <returns></returns>
-        public async Task<List<ProductCategoryViewModel>> GetProductCategories()
+        public async Task<List<ProductCategoryViewModel>> GetProductCategories(bool? valid = true)
         {
+
+
+
             var dbos = await db.ProductCategorys
                 .Include(y=>y.ProductItems)
-                .Where(y => y.Valid).ToListAsync();
+                .Where(y => y.Valid == valid).ToListAsync();
             return dbos.Select(y => mapper.Map<ProductCategoryViewModel>(y)).ToList();
 
         }
@@ -123,6 +126,9 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
             var dbo = await db.ProductCategorys
                 .Include(y=>y.ProductItems)
                 .FirstOrDefaultAsync(y=>y.Id == id);
+
+            dbo.ProductItems = dbo.ProductItems.Where(y => y.Valid).ToList();
+
             return mapper.Map<ProductCategoryViewModel>(dbo);
 
         }

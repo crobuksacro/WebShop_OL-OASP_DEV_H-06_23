@@ -1,4 +1,5 @@
-﻿using Shared_OL_OASP_DEV_H_06_23.Models.Binding.ProductModels;
+﻿using Azure;
+using Shared_OL_OASP_DEV_H_06_23.Models.Binding.ProductModels;
 using WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces;
 
 namespace WebShop_OL_OASP_DEV_H_06_23.UnitTest
@@ -63,6 +64,8 @@ namespace WebShop_OL_OASP_DEV_H_06_23.UnitTest
             Assert.Equal(TestString, response.Description);
             Assert.Equal(TestString, response.Name);
 
+            response = await productService.GetProductCategory(response.Id);
+            Assert.NotNull(response);
 
         }
 
@@ -73,12 +76,48 @@ namespace WebShop_OL_OASP_DEV_H_06_23.UnitTest
             var deletedId = ProductCategories[12].Id;
            await productService.DeleteProductCategory(deletedId);
 
-            var allItems = await productService.GetProductCategories();
-            
+            var allItems = await productService.GetProductCategories();            
             Assert.Null(allItems.FirstOrDefault(y=>y.Id == deletedId));
+        }
 
+        [Fact]
+        public async void AddProductItem_AddsNewEntityToDb_ReturnsViewModel()
+        {
+
+            var response = await productService.AddProductItem(new ProductItemBinding
+            {
+                Description = TestString,
+                Name = TestString,
+                Price = 1233,
+                ProductCategoryId = ProductCategories[1].Id,
+                Quantity = 10
+            });
+
+            Assert.NotNull(response);
+
+        }
+
+        [Fact]
+        public async void DeleteProductItem_DeletesEntityFromDb_ValidatesIfItemIsNull()
+        {
+            var addedItem = await productService.AddProductItem(new ProductItemBinding
+            {
+                Description = TestString,
+                Name = TestString,
+                Price = 1233,
+                ProductCategoryId = ProductCategories[0].Id,
+                Quantity = 10
+            });
+            Assert.NotNull(addedItem);
+
+
+            await productService.DeleteProductItem(addedItem.Id);
+            var productCategory = await productService.GetProductCategory(ProductCategories[0].Id);
+            var productItem = productCategory.ProductItems.FirstOrDefault(y => y.Id == addedItem.Id);
+            Assert.Null(productItem);
 
 
         }
+
     }
 }

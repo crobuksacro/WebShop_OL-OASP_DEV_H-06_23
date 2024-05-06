@@ -28,7 +28,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces
         /// Get product Categorys
         /// </summary>
         /// <returns></returns>
-        Task<List<ProductCategoryViewModel>> GetProductCategories();
+        Task<List<ProductCategoryViewModel>> GetProductCategories(bool? valid = true);
         /// <summary>
         /// Add product Categories by paggination
         /// </summary>
