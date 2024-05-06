@@ -65,5 +65,20 @@ namespace WebShop_OL_OASP_DEV_H_06_23.UnitTest
 
 
         }
+
+
+        [Fact]
+        public async void DeleteProductCategory_DeletesEntityFromDb_ValidatesIfItemIsNull()
+        {
+            var deletedId = ProductCategories[12].Id;
+           await productService.DeleteProductCategory(deletedId);
+
+            var allItems = await productService.GetProductCategories();
+            
+            Assert.Null(allItems.FirstOrDefault(y=>y.Id == deletedId));
+
+
+
+        }
     }
 }
