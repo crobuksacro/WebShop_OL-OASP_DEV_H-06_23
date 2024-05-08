@@ -1,7 +1,6 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Shared_OL_OASP_DEV_H_06_23.Models.Binding.ProductModels;
-using System.Diagnostics;
-using WebShop_OL_OASP_DEV_H_06_23.Models;
 using WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces;
 
 namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
@@ -9,10 +8,12 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
     public class AdminController : Controller
     {
         private readonly IProductService _productService;
+        private readonly IMapper _mapper;
 
-        public AdminController(IProductService productService)
+        public AdminController(IProductService productService, IMapper mapper)
         {
             _productService = productService;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
@@ -58,5 +59,27 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
             return RedirectToAction("Details", new { id = model.ProductCategoryId });
         }
 
+        public async Task<IActionResult> Edit(long id)
+        {
+            var model = await _productService.GetProductCategory(id);
+            var response = _mapper.Map<ProductCategoryUpdateBinding>(model);
+            return View(response);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(ProductCategoryUpdateBinding model)
+        {
+   
+            await _productService.UpdateProductCategory(model);
+
+            return RedirectToAction("Index");
+        }
+
+
+        public async Task<IActionResult> Delete(long id)
+        {
+            await _productService.DeleteProductCategory(id);
+            return RedirectToAction("Index");
+        }
     }
 }

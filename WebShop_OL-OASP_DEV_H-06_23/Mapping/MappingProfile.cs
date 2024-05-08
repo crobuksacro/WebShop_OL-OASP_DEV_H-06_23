@@ -22,7 +22,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Mapping
             CreateMap<Company, CompanyViewModel>();
             CreateMap<CompanyUpdateBinding, Company>();
 
-            
+            CreateMap<ProductCategoryViewModel, ProductCategoryUpdateBinding>();
             CreateMap<ProductCategory, ProductCategoryViewModel>();
             CreateMap<ProductCategoryBinding, ProductCategory>();
             CreateMap<ProductCategoryUpdateBinding, ProductCategory>();
