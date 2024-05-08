@@ -11,12 +11,20 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
     public class AdminController : Controller
     {
         private readonly IProductService _productService;
+        private readonly IAdminService _adminService;
         private readonly IMapper _mapper;
 
-        public AdminController(IProductService productService, IMapper mapper)
+        public AdminController(IProductService productService, IMapper mapper, IAdminService adminService)
         {
             _productService = productService;
             _mapper = mapper;
+            _adminService = adminService;
+        }
+
+        public async Task<IActionResult> Company()
+        {
+            var company = await _adminService.GetCompany();
+            return View(company);
         }
 
         public async Task<IActionResult> Index()

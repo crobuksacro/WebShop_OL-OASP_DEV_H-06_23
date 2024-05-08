@@ -27,7 +27,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
         {
             await accountService.CreateUser(model, Roles.Buyer);
 
-            return RedirectToAction("Index", "Admin");
+            return RedirectToAction("Index", "Buyer");
         }
     }
 }
