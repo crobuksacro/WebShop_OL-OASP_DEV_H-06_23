@@ -1,10 +1,13 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared_OL_OASP_DEV_H_06_23.Models.Binding.ProductModels;
+using Shared_OL_OASP_DEV_H_06_23.Models.Dto;
 using WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces;
 
 namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
 {
+    [Authorize(Roles = Roles.Admin)]
     public class AdminController : Controller
     {
         private readonly IProductService _productService;

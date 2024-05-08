@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Shared_OL_OASP_DEV_H_06_23.Models.Dto;
 using WebShop_OL_OASP_DEV_H_06_23.Data;
@@ -31,10 +32,26 @@ namespace WebShop_OL_OASP_DEV_H_06_23
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 
-            builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)                
+            builder.Services.AddDefaultIdentity<ApplicationUser>(
+                options => {
+                    options.SignIn.RequireConfirmedAccount = true;
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequiredUniqueChars = 0;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+
+
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireDigit = false;
+                }
+
+
+                )
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
+            builder.Services.AddSingleton<IIdentitySetup, IdentitySetup>();
 
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<ICommonService, CommonService>();
@@ -72,6 +89,8 @@ namespace WebShop_OL_OASP_DEV_H_06_23
                 name: "default",
                 pattern: "{controller=Admin}/{action=Index}/{id?}");
             app.MapRazorPages();
+
+            var identitySetup = app.Services.GetRequiredService<IIdentitySetup>();
 
             app.Run();
         }
