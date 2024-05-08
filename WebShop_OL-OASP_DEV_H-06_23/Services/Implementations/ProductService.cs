@@ -178,7 +178,10 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
         /// <returns></returns>
         public async Task<ProductItemViewModel> DeleteProductItem(long id)
         {
-            var dbo = await db.ProductItems.FindAsync(id);
+            var dbo = await db.ProductItems
+                .Include(y=>y.ProductCategory)
+                .FirstOrDefaultAsync(y=>y.Id == id);
+
             dbo.Valid = false;
             await db.SaveChangesAsync();
             return mapper.Map<ProductItemViewModel>(dbo);
@@ -191,10 +194,6 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
         /// <returns></returns>
         public async Task<ProductItemViewModel> UpdateProductItem(ProductItemUpdateBinding model)
         {
-            //var dbo = await db.ProductItems
-            //    .Include(y=>y.Company)
-            //    .FirstOrDefaultAsync(y => y.Id == model.Id);
-
             var dbo = await db.ProductItems.FindAsync(model.Id);
             mapper.Map(model, dbo);
             await db.SaveChangesAsync();

@@ -37,6 +37,7 @@
                     <th scope="col">Opis</th>
                     <th scope="col">Cijena</th>
                     <th scope="col">Količina</th>
+                    <th scope="col">Uredi</th>
                 </tr>
             </thead>
             <tbody>
@@ -49,6 +50,11 @@
                         <td>@item.Description</td>
                         <td>@item.Price</td>
                         <td>@item.Quantity</td>
+                        <td>
+                            @Html.ActionLink("Edit", "EditProductItem", new { id = item.Id }) |
+                            @Html.ActionLink("Details", "DetailsProductItem", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "DeleteProductItem", new { id = item.Id })
+                        </td>
                     </tr>
                 }
 

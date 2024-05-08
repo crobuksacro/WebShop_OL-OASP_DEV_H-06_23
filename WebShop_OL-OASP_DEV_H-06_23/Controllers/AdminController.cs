@@ -40,6 +40,15 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
             return View(productCategory);
         }
 
+        public async Task<IActionResult> DetailsProductItem(long id)
+        {
+            var productCategory = await _productService.GetProductItem(id);
+            return View(productCategory);
+        }
+
+        
+
+
         public async Task<IActionResult> AddProductCategory(long categoryId)
         {
             var model = new ProductItemBinding
@@ -59,6 +68,21 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
             return RedirectToAction("Details", new { id = model.ProductCategoryId });
         }
 
+
+        public async Task<IActionResult> EditProductItem(long id)
+        {
+            var model = await _productService.GetProductItem(id);
+            var response = _mapper.Map<ProductItemUpdateBinding>(model);
+            return View(response);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProductItem(ProductItemUpdateBinding model)
+        {
+            var response = await _productService.UpdateProductItem(model);
+            return RedirectToAction("Details", new { id = response.ProductCategoryId });
+        }
+
         public async Task<IActionResult> Edit(long id)
         {
             var model = await _productService.GetProductCategory(id);
@@ -69,7 +93,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(ProductCategoryUpdateBinding model)
         {
-   
+
             await _productService.UpdateProductCategory(model);
 
             return RedirectToAction("Index");
@@ -80,6 +104,12 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
         {
             await _productService.DeleteProductCategory(id);
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> DeleteProductItem(long id)
+        {
+            var response = await _productService.DeleteProductItem(id);
+            return RedirectToAction("Details", new { id = response.ProductCategoryId });
         }
     }
 }
