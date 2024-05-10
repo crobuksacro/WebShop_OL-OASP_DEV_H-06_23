@@ -53,6 +53,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23
 
             builder.Services.AddSingleton<IIdentitySetup, IdentitySetup>();
 
+            builder.Services.AddScoped<IBuyerService, BuyerService>();
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<ICommonService, CommonService>();

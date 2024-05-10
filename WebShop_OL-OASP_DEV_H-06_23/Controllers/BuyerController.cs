@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared_OL_OASP_DEV_H_06_23.Models.Binding.OrderModels;
 using Shared_OL_OASP_DEV_H_06_23.Models.Dto;
 using WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces;
 
@@ -10,12 +11,22 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
     {
 
         private readonly IProductService _productService;
-
-        public BuyerController(IProductService productService)
+        private readonly IBuyerService _buyerService;
+        public BuyerController(IProductService productService, IBuyerService buyerService)
         {
 
             _productService = productService;
+            _buyerService = buyerService;
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Order(OrderBinding model)
+        {
+            await _buyerService.Order(model, User);
+
+            return View();
+        }
+
 
         public async Task<IActionResult> Index()
         {

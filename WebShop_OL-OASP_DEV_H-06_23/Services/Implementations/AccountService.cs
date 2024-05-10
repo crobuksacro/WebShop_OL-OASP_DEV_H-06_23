@@ -12,9 +12,10 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
     public class AccountService : IAccountService
     {
         private UserManager<ApplicationUser> userManager;
-        private SignInManager<ApplicationUser> signInManager;
         private ApplicationDbContext db;
         private IMapper mapper;
+        private SignInManager<ApplicationUser> signInManager;
+
 
         public AccountService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ApplicationDbContext db, IMapper mapper)
         {
