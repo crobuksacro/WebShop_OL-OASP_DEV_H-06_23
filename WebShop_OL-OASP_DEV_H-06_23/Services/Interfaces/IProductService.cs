@@ -1,11 +1,16 @@
-﻿using AutoMapper;
-using Shared_OL_OASP_DEV_H_06_23.Models.Binding.ProductModels;
+﻿using Shared_OL_OASP_DEV_H_06_23.Models.Binding.ProductModels;
 using Shared_OL_OASP_DEV_H_06_23.Models.ViewModel.ProductModels;
 
 namespace WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces
 {
     public interface IProductService
     {
+        /// <summary>
+        /// Get all product items
+        /// </summary>
+        /// <param name="notOlderThen"></param>
+        /// <returns></returns>
+        Task<List<ProductItemViewModel>> GetProductItems(DateTime? notOlderThen = null);
         /// <summary>
         /// Add product item
         /// </summary>

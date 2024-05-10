@@ -172,6 +172,30 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
         }
 
         /// <summary>
+        /// Get all product items
+        /// </summary>
+        /// <param name="notOlderThen"></param>
+        /// <returns></returns>
+        public async Task<List<ProductItemViewModel>> GetProductItems(DateTime? notOlderThen = null)
+        {
+            if (!notOlderThen.HasValue)
+            {
+                notOlderThen = DateTime.Now;
+            }
+
+            var productItems = await db.ProductItems
+                .Include(y=>y.ProductCategory)
+                .Where(y=>y.Created <  notOlderThen && y.Valid).ToListAsync();
+
+            if (!productItems.Any())
+            {
+                return new List<ProductItemViewModel>();
+            }
+
+            return productItems.Select(y=>mapper.Map<ProductItemViewModel>(y)).ToList();
+        }
+
+        /// <summary>
         /// Delte product item
         /// </summary>
         /// <param name="id"></param>

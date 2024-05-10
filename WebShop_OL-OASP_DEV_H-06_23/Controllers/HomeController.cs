@@ -18,6 +18,12 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
 
         public async Task<IActionResult> Index()
         {
+            return View();
+        }
+
+
+        public async Task<IActionResult> Products()
+        {
             var model = await _productService.GetProductCategories();
             return View(model);
         }

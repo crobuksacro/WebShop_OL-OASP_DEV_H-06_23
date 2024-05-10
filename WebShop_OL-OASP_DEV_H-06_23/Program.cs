@@ -90,7 +90,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Admin}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapRazorPages();
 
             var identitySetup = app.Services.GetRequiredService<IIdentitySetup>();
