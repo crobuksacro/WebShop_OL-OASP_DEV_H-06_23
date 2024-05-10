@@ -26,6 +26,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
             }
 
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
+
             user.EmailConfirmed = true;
             var result = await userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
