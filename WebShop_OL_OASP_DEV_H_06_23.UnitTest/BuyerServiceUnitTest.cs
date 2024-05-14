@@ -28,10 +28,15 @@ namespace WebShop_OL_OASP_DEV_H_06_23.UnitTest
                     City = TestString,
                     Country = TestString,
                     Number = TestString,
-                    Street = TestString 
+                    Street = TestString
                 },
-                OrderItemIds = ProductCategories[0].ProductItems.Select(y=>y.Id).ToList()
-            }, Buyer);
+                OrderItems = ProductCategories[0].ProductItems.Select(y => new OrderItemBiding
+                {
+                    ProductItemId = y.Id,
+                    Quantity = 5
+
+                }).ToList()
+            }, Buyer); ;
 
             Assert.NotNull(result);
         }

@@ -37,6 +37,23 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
 
         }
 
+
+        /// <summary>
+        /// Updates order
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<OrderViewModel> UpdateOrder(OrderUpdateBinding model)
+        {
+            var dbo = await db.Orders
+                .Include(y=>y.OrderAddress)
+                .FirstOrDefaultAsync(y => y.Id == model.Id);
+            mapper.Map(model, dbo);
+            await db.SaveChangesAsync();
+
+            return mapper.Map<OrderViewModel>(dbo);
+        }
+
         /// <summary>
         /// Order item
         /// </summary>
@@ -46,8 +63,21 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
         public async Task<OrderViewModel> Order(OrderBinding model, ApplicationUser buyer)
         {
             var dbo = mapper.Map<Order>(model);
+            var productItems = db.ProductItems
+                .Where(y => model.OrderItems.Select(y => y.ProductItemId).Contains(y.Id)).ToList();
+
+
+            foreach (var product in dbo.OrderItems)
+            {
+                var target = productItems.FirstOrDefault(y => product.ProductItemId == y.Id);
+                if(target != null)
+                {
+                    product.Price = target.Price;
+                }
+            }
+
+
             dbo.Buyer = buyer;
-            dbo.OrderItems = await db.OrderItems.Where(y => model.OrderItemIds.Contains(y.Id)).ToListAsync();
             db.Orders.Add(dbo);
             await db.SaveChangesAsync();
             return mapper.Map<OrderViewModel>(dbo);
