@@ -1,4 +1,5 @@
-﻿using Shared_OL_OASP_DEV_H_06_23.Models.Binding.OrderModels;
+﻿using AutoMapper;
+using Shared_OL_OASP_DEV_H_06_23.Models.Binding.OrderModels;
 using Shared_OL_OASP_DEV_H_06_23.Models.ViewModel.OrderModels;
 using System.Security.Claims;
 using WebShop_OL_OASP_DEV_H_06_23.Models.Dbo.UserModel;
@@ -7,7 +8,24 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces
 {
     public interface IBuyerService
     {
+        /// <summary>
+        /// Delete order
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<OrderViewModel> DeleteOrder(long id);
+        /// <summary>
+        /// Get all orders
+        /// </summary>
+        /// <returns></returns>
+        Task<List<OrderViewModel>> GetOrders();
 
+        /// <summary>
+        /// Get order by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<OrderViewModel> GetOrder(long id);
         /// <summary>
         /// Order item
         /// </summary>

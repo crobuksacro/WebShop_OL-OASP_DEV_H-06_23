@@ -36,6 +36,34 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
             return await Order(model, applicationUser);
 
         }
+        /// <summary>
+        /// Get all orders
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<OrderViewModel>> GetOrders()
+        {
+            var dbo = await db.Orders
+                 .Include(y => y.OrderItems)
+                .Include(y => y.OrderAddress)
+                .Where(y => y.Valid)
+                .ToListAsync();
+
+            return dbo.Select(y => mapper.Map<OrderViewModel>(y)).ToList();
+        }
+
+        /// <summary>
+        /// Get order by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<OrderViewModel> GetOrder(long id)
+        {
+            var dbo = await db.Orders
+                 .Include(y => y.OrderItems)
+                .Include(y => y.OrderAddress)
+                .FirstOrDefaultAsync(y => y.Id == id);
+            return mapper.Map<OrderViewModel>(dbo);
+        }
 
 
         /// <summary>
@@ -46,11 +74,20 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
         public async Task<OrderViewModel> UpdateOrder(OrderUpdateBinding model)
         {
             var dbo = await db.Orders
-                .Include(y=>y.OrderAddress)
+                .Include(y => y.OrderItems)
+                .Include(y => y.OrderAddress)
                 .FirstOrDefaultAsync(y => y.Id == model.Id);
             mapper.Map(model, dbo);
             await db.SaveChangesAsync();
 
+            return mapper.Map<OrderViewModel>(dbo);
+        }
+
+        public async Task<OrderViewModel> DeleteOrder(long id)
+        {
+            var dbo = await db.Orders.FindAsync(id);
+            dbo.Valid = false;
+            await db.SaveChangesAsync();
             return mapper.Map<OrderViewModel>(dbo);
         }
 
@@ -70,7 +107,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
             foreach (var product in dbo.OrderItems)
             {
                 var target = productItems.FirstOrDefault(y => product.ProductItemId == y.Id);
-                if(target != null)
+                if (target != null)
                 {
                     product.Price = target.Price;
                 }

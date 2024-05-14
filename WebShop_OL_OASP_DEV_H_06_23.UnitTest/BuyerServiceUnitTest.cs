@@ -1,6 +1,4 @@
-﻿using Azure;
-using Shared_OL_OASP_DEV_H_06_23.Models.Binding.OrderModels;
-using Shared_OL_OASP_DEV_H_06_23.Models.Binding.ProductModels;
+﻿using Shared_OL_OASP_DEV_H_06_23.Models.Binding.OrderModels;
 using WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces;
 
 namespace WebShop_OL_OASP_DEV_H_06_23.UnitTest
