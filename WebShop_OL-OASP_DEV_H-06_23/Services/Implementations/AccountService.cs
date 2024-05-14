@@ -24,6 +24,11 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
             this.db = db;
             this.mapper = mapper;
         }
+        
+        //Zadatak: napraviti view sa detaljima buyera aka kupca
+        // zaseban view gdje korisnik moze pregledati vlastitu adresu
+        //Update usera, omoguciti unos adrese kupca
+
 
 
         public async Task<bool> CreateUser(RegistrationBinding model, string role)
