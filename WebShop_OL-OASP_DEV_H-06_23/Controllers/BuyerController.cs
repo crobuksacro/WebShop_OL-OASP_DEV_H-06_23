@@ -43,6 +43,20 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
         }
 
 
+        public async Task<IActionResult> OrderInfo()
+        {
+            var sessionOrderItems = HttpContext.Session.GetString("OrderItems");
+            List<OrderItemBiding> existingOrderItems = sessionOrderItems != null
+     ? JsonConvert.DeserializeObject<List<OrderItemBiding>>(sessionOrderItems)
+     : new List<OrderItemBiding>();
+
+
+
+
+            return View();
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> AddToOrderItem([FromBody] List<OrderItemBiding> orderItems)
         {
