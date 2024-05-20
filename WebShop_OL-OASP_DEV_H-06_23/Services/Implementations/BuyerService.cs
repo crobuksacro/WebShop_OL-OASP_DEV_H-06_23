@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Shared_OL_OASP_DEV_H_06_23.Models.Binding.OrderModels;
+using Shared_OL_OASP_DEV_H_06_23.Models.Dto;
 using Shared_OL_OASP_DEV_H_06_23.Models.ViewModel.OrderModels;
 using System.Security.Claims;
 using WebShop_OL_OASP_DEV_H_06_23.Data;
@@ -43,9 +44,49 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
         public async Task<List<OrderViewModel>> GetOrders()
         {
             var dbo = await db.Orders
+                .Include(y => y.Buyer)
                  .Include(y => y.OrderItems)
                 .Include(y => y.OrderAddress)
                 .Where(y => y.Valid)
+                .ToListAsync();
+
+            return dbo.Select(y => mapper.Map<OrderViewModel>(y)).ToList();
+        }
+        /// <summary>
+        /// Get orders by user role
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<List<OrderViewModel>> GetOrders(ClaimsPrincipal user)
+        {
+            var applicationUser = await userManager.GetUserAsync(user);
+            var role = await userManager.GetRolesAsync(applicationUser);
+
+            switch (role[0])
+            {
+                case Roles.Admin:
+                   return await GetOrders();
+                case Roles.Buyer:
+                    return await GetOrders(applicationUser);
+                default:
+                    throw new NotImplementedException($"{role[0]} isn't implemented in get orders!");
+
+            }            
+        }
+
+        /// <summary>
+        /// Get orders by buyer
+        /// </summary>
+        /// <param name="buyer"></param>
+        /// <returns></returns>
+        public async Task<List<OrderViewModel>> GetOrders(ApplicationUser buyer)
+        {
+            var dbo = await db.Orders
+                .Include(y => y.Buyer)
+                 .Include(y => y.OrderItems)
+                .Include(y => y.OrderAddress)
+                .Where(y => y.Valid && y.BuyerId == buyer.Id)
                 .ToListAsync();
 
             return dbo.Select(y => mapper.Map<OrderViewModel>(y)).ToList();
@@ -59,6 +100,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
         public async Task<OrderViewModel> GetOrder(long id)
         {
             var dbo = await db.Orders
+                .Include(y => y.Buyer)
                  .Include(y => y.OrderItems)
                 .Include(y => y.OrderAddress)
                 .FirstOrDefaultAsync(y => y.Id == id);

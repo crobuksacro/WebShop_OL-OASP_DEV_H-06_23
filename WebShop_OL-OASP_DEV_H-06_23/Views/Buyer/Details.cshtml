@@ -16,7 +16,6 @@
                 @Html.DisplayFor(model => model.Description)
             </dd>
         </dl>
-
     </div>
     <div class="col-8">
         <table class="table table-hover">
@@ -31,7 +30,6 @@
                 </tr>
             </thead>
             <tbody>
-
                 @foreach (var item in Model.ProductItems)
                 {
                     <tr>
@@ -56,16 +54,21 @@
             </tbody>
         </table>
     </div>
-
+    <input type="button" class="btn btn-success" value="Dodaj u košaricu" id="btn-order-final" />
 </div>
 
+<div id="order-form-container" style="display:none;">
+    <form id="order-form" method="post" action="/Buyer/AddToOrderItem">
+        <!-- Hidden inputs for order items will be appended here -->
+    </form>
+</div>
 
 <div class="modal fade" id="order-modal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="orderModalLabel">Detalji Narudžbe</h5>
-                <button type="button" onclick="CloseModal()" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -94,27 +97,19 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="CloseModal()" data-dismiss="modal">Zatvori</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
                 <button type="button" class="btn btn-primary" onclick="ConfirmOrder()">Potvrdi</button>
             </div>
         </div>
     </div>
 </div>
 
-
-
 <script>
-    let currentButton;
-    const orderItems = {};
-
-
-
-    function CloseModal() {
-        $('#order-modal').modal('hide');
-    }
+    let currentButton;  // Variable to store the reference to the button that opened the modal
+    const orderItems = {};  // Object to store order items
 
     function AddItemToShoppingChart(e) {
-        currentButton = e;
+        currentButton = e;  // Store the reference to the button that was clicked
 
         var productName = e.getAttribute("att-product-name");
         var productDescription = e.getAttribute("att-product-description");
@@ -125,20 +120,59 @@
         document.getElementById("product-description").value = productDescription;
         document.getElementById("product-price").value = productPrice;
         document.getElementById("product-quantity").value = productQuantity;
-        document.getElementById("order-quantity").value = 1;
+        document.getElementById("order-quantity").value = 1;  // Default quantity for order
 
         $('#order-modal').modal('show');
     }
+
     function ConfirmOrder() {
         var orderQuantity = document.getElementById("order-quantity").value;
         var productId = currentButton.getAttribute("att-id");
 
+        // Update the button that opened the modal
         if (currentButton) {
             currentButton.className = 'btn btn-success';
-            currentButton.value = `Odabrano: ${orderQuantity}`;  
+            currentButton.value = `Odabrano: ${orderQuantity}`;
         }
+
+        // Store the order item in the orderItems object
         orderItems[productId] = orderQuantity;
-        CloseModal();
+
+        $('#order-modal').modal('hide');
     }
+
+    document.getElementById('btn-order-final').addEventListener('click', function () {
+        // Create an array to store the order items
+        let orderItemsArray = [];
+
+        for (const [productId, quantity] of Object.entries(orderItems)) {
+            orderItemsArray.push({
+                ProductItemId: productId,
+                Quantity: quantity
+            });
+        }
+
+        // Send the order items array to the server as JSON
+        fetch('/Buyer/AddToOrderItem', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(orderItemsArray)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+                // Optionally, redirect or update the page based on the response
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
 
 </script>

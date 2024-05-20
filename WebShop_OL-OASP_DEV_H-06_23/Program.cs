@@ -26,7 +26,13 @@ namespace WebShop_OL_OASP_DEV_H_06_23
             builder.Services.Configure<AppSettings>(builder.Configuration);
             //var cfg = builder.Configuration.Get<AppSettings>();
 
-            
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
 
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -88,6 +94,8 @@ namespace WebShop_OL_OASP_DEV_H_06_23
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseSession();
+
 
             app.MapControllerRoute(
                 name: "default",

@@ -41,5 +41,12 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces
         /// <param name="user"></param>
         /// <returns></returns>
         Task<OrderViewModel> Order(OrderBinding model, ClaimsPrincipal user);
+        /// <summary>
+        /// Get orders by user role
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        Task<List<OrderViewModel>> GetOrders(ClaimsPrincipal user);
     }
 }
