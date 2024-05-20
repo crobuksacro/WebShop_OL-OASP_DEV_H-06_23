@@ -1,9 +1,10 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Shared_OL_OASP_DEV_H_06_23.Models.Binding.Common;
 using Shared_OL_OASP_DEV_H_06_23.Models.Binding.OrderModels;
 using Shared_OL_OASP_DEV_H_06_23.Models.Dto;
-using WebShop_OL_OASP_DEV_H_06_23.Models.Dbo.OrderModels;
 using WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces;
 
 namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
@@ -14,12 +15,39 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
 
         private readonly IProductService _productService;
         private readonly IBuyerService _buyerService;
-        public BuyerController(IProductService productService, IBuyerService buyerService)
+        private readonly IAccountService _accountService;
+        private readonly IMapper _mapper;
+
+        public BuyerController(IProductService productService, IBuyerService buyerService, 
+            IAccountService accountService, IMapper mapper)
         {
 
             _productService = productService;
             _buyerService = buyerService;
+            _accountService = accountService;
+            _mapper = mapper;
         }
+
+        public async Task<IActionResult> Order()
+        {
+            var sessionOrderItems = HttpContext.Session.GetString("OrderItems");
+            List<OrderItemBiding> existingOrderItems = sessionOrderItems != null
+     ? JsonConvert.DeserializeObject<List<OrderItemBiding>>(sessionOrderItems)
+     : new List<OrderItemBiding>();
+
+
+            var buyerAddress = await _accountService.GetUserAddress(User);
+            OrderBinding orderBinding = new OrderBinding
+            {
+                OrderAddress = _mapper.Map<AddressBinding>(buyerAddress),
+                OrderItems = existingOrderItems
+            };
+
+
+
+            return View(orderBinding);
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Order(OrderBinding model)
@@ -43,18 +71,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
         }
 
 
-        public async Task<IActionResult> OrderInfo()
-        {
-            var sessionOrderItems = HttpContext.Session.GetString("OrderItems");
-            List<OrderItemBiding> existingOrderItems = sessionOrderItems != null
-     ? JsonConvert.DeserializeObject<List<OrderItemBiding>>(sessionOrderItems)
-     : new List<OrderItemBiding>();
 
-
-
-
-            return View();
-        }
 
 
         [HttpPost]
