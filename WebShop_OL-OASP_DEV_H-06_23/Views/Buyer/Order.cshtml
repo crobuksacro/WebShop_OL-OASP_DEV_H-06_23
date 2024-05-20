@@ -15,20 +15,21 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <label>Street</label>
-            <input type="text" class="form-control" name="model.OrderAddress.Street" value="@Model.OrderAddress.Street" />
+
+            <label asp-for="OrderAddress.Street" class="control-label"></label>
+            <input asp-for="OrderAddress.Street" class="form-control" />
         </div>
         <div class="form-group">
-            <label>Number</label>
-            <input type="text" class="form-control" name="OrderAddress.Number" value="@Model.OrderAddress.Number" />
+            <label asp-for="OrderAddress.Number" class="control-label"></label>
+            <input asp-for="OrderAddress.Number" class="form-control" />
         </div>
         <div class="form-group">
-            <label>City</label>
-            <input type="text" class="form-control" name="OrderAddress.City" value="@Model.OrderAddress.City" />
+            <label asp-for="OrderAddress.City" class="control-label"></label>
+            <input asp-for="OrderAddress.City" class="form-control" />
         </div>
         <div class="form-group">
-            <label>Country</label>
-            <input type="text" class="form-control" name="OrderAddress.Country" value="@Model.OrderAddress.Country" />
+            <label asp-for="OrderAddress.Country" class="control-label"></label>
+            <input asp-for="OrderAddress.Country" class="form-control" />
         </div>
     </div>
 </div>
