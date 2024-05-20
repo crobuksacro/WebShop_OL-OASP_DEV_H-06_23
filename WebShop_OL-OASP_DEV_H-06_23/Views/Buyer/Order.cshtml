@@ -1,30 +1,78 @@
-﻿@model Shared_OL_OASP_DEV_H_06_23.Models.Binding.OrderModels.OrderBinding
+﻿@using WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces
+@inject IBuyerService buyerService
+@model Shared_OL_OASP_DEV_H_06_23.Models.Binding.OrderModels.OrderBinding
 
 @{
     ViewData["Title"] = "Order";
+    var productItems = await buyerService.GetProductItems(Model.OrderItems.Select(y => y.ProductItemId.Value).ToList());
+    var rowCounter = 1;
 }
 
 <h1>Order</h1>
 
-<h4>OrderBinding</h4>
+<h4>Delivery Address</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Order">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Message" class="control-label"></label>
-                <input asp-for="Message" class="form-control" />
-                <span asp-validation-for="Message" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label>Street</label>
+            <input type="text" class="form-control" name="model.OrderAddress.Street" value="@Model.OrderAddress.Street" />
+        </div>
+        <div class="form-group">
+            <label>Number</label>
+            <input type="text" class="form-control" name="OrderAddress.Number" value="@Model.OrderAddress.Number" />
+        </div>
+        <div class="form-group">
+            <label>City</label>
+            <input type="text" class="form-control" name="OrderAddress.City" value="@Model.OrderAddress.City" />
+        </div>
+        <div class="form-group">
+            <label>Country</label>
+            <input type="text" class="form-control" name="OrderAddress.Country" value="@Model.OrderAddress.Country" />
+        </div>
     </div>
 </div>
+
+<h4>Selected Products</h4>
+<hr />
+<form asp-action="Order" method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Naziv</th>
+                <th>Quantity</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.OrderItems.Count; i++)
+            {
+                var productItem = productItems.FirstOrDefault(y => y.Id == Model.OrderItems[i].ProductItemId);
+            
+
+                <tr>
+                    <td>@rowCounter</td>
+                    <td>@productItem.Name</td> 
+                    <td>
+                        <input type="text" name="OrderItems[@i].Quantity" value="@Model.OrderItems[i].Quantity" min="1" class="form-control" />
+                        <input type="hidden" name="OrderItems[@i].ProductItemId" value="@Model.OrderItems[i].ProductItemId" />
+                    </td>
+                    <td>
+                        <input type="checkbox" name="OrderItems[@i].Remove" value="true" />
+                    </td>
+                </tr>
+
+                rowCounter++;
+            }
+        </tbody>
+    </table>
+
+    <div class="form-group">
+        <input type="submit" value="Naruci" class="btn btn-primary" />
+    </div>
+</form>
 
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-

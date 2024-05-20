@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Shared_OL_OASP_DEV_H_06_23.Models.Binding.OrderModels;
 using Shared_OL_OASP_DEV_H_06_23.Models.Dto;
 using Shared_OL_OASP_DEV_H_06_23.Models.ViewModel.OrderModels;
+using Shared_OL_OASP_DEV_H_06_23.Models.ViewModel.ProductModels;
 using System.Security.Claims;
 using WebShop_OL_OASP_DEV_H_06_23.Data;
 using WebShop_OL_OASP_DEV_H_06_23.Models.Dbo.OrderModels;
@@ -23,6 +24,19 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
             this.userManager = userManager;
             this.db = db;
             this.mapper = mapper;
+        }
+
+        /// <summary>
+        /// Get product items by ids
+        /// </summary>
+        /// <param name="productItemIds"></param>
+        /// <returns></returns>
+        public async Task<List<ProductItemViewModel>> GetProductItems(List<long> productItemIds)
+        {
+            var dbo = await db.ProductItems.Where(y => productItemIds.Contains(y.Id)).ToListAsync();
+
+            return dbo.Select(y => mapper.Map<ProductItemViewModel>(y)).ToList();
+
         }
 
         /// <summary>
@@ -66,13 +80,13 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
             switch (role[0])
             {
                 case Roles.Admin:
-                   return await GetOrders();
+                    return await GetOrders();
                 case Roles.Buyer:
                     return await GetOrders(applicationUser);
                 default:
                     throw new NotImplementedException($"{role[0]} isn't implemented in get orders!");
 
-            }            
+            }
         }
 
         /// <summary>

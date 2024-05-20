@@ -39,7 +39,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
             var buyerAddress = await _accountService.GetUserAddress(User);
             OrderBinding orderBinding = new OrderBinding
             {
-                OrderAddress = _mapper.Map<AddressBinding>(buyerAddress),
+                OrderAddress = buyerAddress != null ? _mapper.Map<AddressBinding>(buyerAddress):new AddressBinding(),
                 OrderItems = existingOrderItems
             };
 

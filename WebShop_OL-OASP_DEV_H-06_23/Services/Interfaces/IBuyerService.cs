@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using Shared_OL_OASP_DEV_H_06_23.Models.Binding.OrderModels;
+﻿using Shared_OL_OASP_DEV_H_06_23.Models.Binding.OrderModels;
 using Shared_OL_OASP_DEV_H_06_23.Models.ViewModel.OrderModels;
+using Shared_OL_OASP_DEV_H_06_23.Models.ViewModel.ProductModels;
 using System.Security.Claims;
 using WebShop_OL_OASP_DEV_H_06_23.Models.Dbo.UserModel;
 
@@ -8,6 +8,12 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces
 {
     public interface IBuyerService
     {
+        /// <summary>
+        /// Get product items by ids
+        /// </summary>
+        /// <param name="productItemIds"></param>
+        /// <returns></returns>
+        Task<List<ProductItemViewModel>> GetProductItems(List<long> productItemIds);
         /// <summary>
         /// Delete order
         /// </summary>
