@@ -139,9 +139,27 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
             return mapper.Map<OrderViewModel>(dbo);
         }
 
-        public async Task<OrderViewModel> DeleteOrder(long id)
+        public async Task<OrderViewModel> CancelOrder(long id)
         {
-            var dbo = await db.Orders.FindAsync(id);
+            var dbo = await db.Orders
+                .Include(y=>y.OrderItems)
+                .ThenInclude(y=> y.ProductItem)
+                .FirstOrDefaultAsync(y=>y.Id == id);
+
+            var productItems = db.ProductItems
+                .Where(y => dbo.OrderItems.Select(y => y.ProductItemId).Contains(y.Id)).ToList();
+
+
+            foreach (var product in dbo.OrderItems)
+            {
+                var target = productItems.FirstOrDefault(y => product.ProductItemId == y.Id);
+                if (target != null)
+                {
+                    target.Quantity += product.Quantity;
+                }
+            }
+
+
             dbo.Valid = false;
             await db.SaveChangesAsync();
             return mapper.Map<OrderViewModel>(dbo);

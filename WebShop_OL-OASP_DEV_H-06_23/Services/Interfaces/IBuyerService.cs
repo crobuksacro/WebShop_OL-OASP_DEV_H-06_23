@@ -19,7 +19,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<OrderViewModel> DeleteOrder(long id);
+        Task<OrderViewModel> CancelOrder(long id);
         /// <summary>
         /// Get all orders
         /// </summary>

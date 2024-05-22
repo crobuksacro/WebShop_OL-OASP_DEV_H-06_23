@@ -50,6 +50,9 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
         }
 
 
+
+
+
         [HttpPost]
         public async Task<IActionResult> Order(OrderBinding model)
         {
@@ -75,6 +78,13 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
         {
             var model = await _productService.GetProductCategories();
             return View(model);
+        }
+
+
+        public async Task<IActionResult> CancelOrder(long orderId)
+        {
+            var model = await _buyerService.CancelOrder(orderId);
+            return RedirectToAction("MyOrders");
         }
 
         public async Task<IActionResult> Details(long id)
