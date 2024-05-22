@@ -170,8 +170,10 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
                 }
             }
 
-
+        
             dbo.Buyer = buyer;
+            dbo.CalcualteTotal();
+
             db.Orders.Add(dbo);
             await db.SaveChangesAsync();
             return mapper.Map<OrderViewModel>(dbo);

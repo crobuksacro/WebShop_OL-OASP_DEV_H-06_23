@@ -7,7 +7,7 @@ using WebShop_OL_OASP_DEV_H_06_23.Models.Dbo.UserModel;
 
 namespace WebShop_OL_OASP_DEV_H_06_23.Models.Dbo.OrderModels
 {
-    public class Order: OrderBase, IBaseTableAtributes
+    public class Order : OrderBase, IBaseTableAtributes
     {
         [Key]
         public long Id { get; set; }
@@ -22,6 +22,16 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Models.Dbo.OrderModels
         public Address? OrderAddress { get; set; }
         public long? OrderAddressId { get; set; }
         public ICollection<OrderItem>? OrderItems { get; set; }
+
+        public void CalcualteTotal()
+        {
+            if (OrderItems == null)
+            {
+                return;
+            }
+
+          Total = OrderItems.Select(y => y.CalculateTotal()).Sum();
+        }
 
     }
 }

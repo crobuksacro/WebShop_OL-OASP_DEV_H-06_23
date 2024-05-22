@@ -11,14 +11,16 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
     public class AdminController : Controller
     {
         private readonly IProductService _productService;
+        private readonly IBuyerService _buyerService;
         private readonly IAdminService _adminService;
         private readonly IMapper _mapper;
 
-        public AdminController(IProductService productService, IMapper mapper, IAdminService adminService)
+        public AdminController(IProductService productService, IMapper mapper, IAdminService adminService, IBuyerService buyerService)
         {
             _productService = productService;
             _mapper = mapper;
             _adminService = adminService;
+            _buyerService = buyerService;
         }
 
         public async Task<IActionResult> Company()
@@ -31,6 +33,12 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
         {
             var productCategories = await _productService.GetProductCategories();
             return View(productCategories);
+        }
+
+        public async Task<IActionResult> Orders()
+        {
+            var orders = await _buyerService.GetOrders();
+            return View(orders);
         }
 
         public async Task<IActionResult> Create()
@@ -58,7 +66,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
             return View(productCategory);
         }
 
-        
+
 
 
         public async Task<IActionResult> AddProductCategory(long categoryId)

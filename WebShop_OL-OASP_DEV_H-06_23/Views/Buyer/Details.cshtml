@@ -93,6 +93,7 @@
                     <div class="form-group">
                         <label for="order-quantity" class="col-form-label">Količina za Narudžbu:</label>
                         <input type="number" class="form-control" id="order-quantity" min="1">
+                        <div class="invalid-feedback">Količina za narudžbu ne može biti veća od dostupne količine!</div>
                     </div>
                 </form>
             </div>
@@ -126,19 +127,31 @@
     }
 
     function ConfirmOrder() {
-        var orderQuantity = document.getElementById("order-quantity").value;
+        var orderQuantity = parseInt(document.getElementById("order-quantity").value);
+        var productQuantity = parseInt(document.getElementById("product-quantity").value);
         var productId = currentButton.getAttribute("att-id");
 
-        // Update the button that opened the modal
-        if (currentButton) {
-            currentButton.className = 'btn btn-success';
-            currentButton.value = `Odabrano: ${orderQuantity}`;
+        if (orderQuantity > productQuantity) {
+            document.getElementById("order-quantity").classList.add("is-invalid");
+        }
+        else{
+            document.getElementById("order-quantity").classList.remove("is-invalid");
+
+
+            // Update the button that opened the modal
+            if (currentButton) {
+                currentButton.className = 'btn btn-success';
+                currentButton.value = `Odabrano: ${orderQuantity}`;
+            }
+
+            // Store the order item in the orderItems object
+            orderItems[productId] = orderQuantity;
+
+            $('#order-modal').modal('hide');
         }
 
-        // Store the order item in the orderItems object
-        orderItems[productId] = orderQuantity;
 
-        $('#order-modal').modal('hide');
+
     }
 
     document.getElementById('btn-order-final').addEventListener('click', function () {
@@ -168,7 +181,7 @@
             })
             .then(data => {
                 console.log('Success:', data);
-                // Optionally, redirect or update the page based on the response
+                window.location.href = '/Buyer/Order';
             })
             .catch(error => {
                 console.error('Error:', error);

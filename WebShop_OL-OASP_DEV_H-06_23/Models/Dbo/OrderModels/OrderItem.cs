@@ -15,5 +15,10 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Models.Dbo.OrderModels
         public ProductItem? ProductItem { get; set; }
         public long? ProductItemId { get; set; }
 
+        public decimal CalculateTotal()
+        {
+            return Price * Quantity;
+        }
+
     }
 }
