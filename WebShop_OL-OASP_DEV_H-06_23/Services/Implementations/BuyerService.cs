@@ -165,6 +165,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
                 var target = productItems.FirstOrDefault(y => product.ProductItemId == y.Id);
                 if (target != null)
                 {
+                    target.Quantity -= product.Quantity;
                     product.Price = target.Price;
                 }
             }

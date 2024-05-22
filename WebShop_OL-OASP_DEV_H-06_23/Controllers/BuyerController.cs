@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Shared_OL_OASP_DEV_H_06_23.Models.Binding.Common;
 using Shared_OL_OASP_DEV_H_06_23.Models.Binding.OrderModels;
 using Shared_OL_OASP_DEV_H_06_23.Models.Dto;
+using WebShop_OL_OASP_DEV_H_06_23.Models.Dbo.OrderModels;
 using WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces;
 
 namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
@@ -18,7 +19,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
 
-        public BuyerController(IProductService productService, IBuyerService buyerService, 
+        public BuyerController(IProductService productService, IBuyerService buyerService,
             IAccountService accountService, IMapper mapper)
         {
 
@@ -39,7 +40,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
             var buyerAddress = await _accountService.GetUserAddress(User);
             OrderBinding orderBinding = new OrderBinding
             {
-                OrderAddress = buyerAddress != null ? _mapper.Map<AddressBinding>(buyerAddress):new AddressBinding(),
+                OrderAddress = buyerAddress != null ? _mapper.Map<AddressBinding>(buyerAddress) : new AddressBinding(),
                 OrderItems = existingOrderItems
             };
 
@@ -52,11 +53,16 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
         [HttpPost]
         public async Task<IActionResult> Order(OrderBinding model)
         {
-            await _buyerService.Order(model, User);
+            var order = await _buyerService.Order(model, User);
 
-            return View();
+            return RedirectToAction("FinishOrder", new { orderId = order.Id });
         }
 
+        public async Task<IActionResult> FinishOrder(long orderId)
+        {
+            var order = await _buyerService.GetOrder(orderId);
+            return View(order);
+        }
 
         public async Task<IActionResult> Index()
         {
