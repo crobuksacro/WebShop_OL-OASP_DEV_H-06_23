@@ -55,13 +55,20 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
         {
             var order = await _buyerService.Order(model, User);
 
-            return RedirectToAction("FinishOrder", new { orderId = order.Id });
+            return RedirectToAction("MyOrder", new { orderId = order.Id });
         }
 
-        public async Task<IActionResult> FinishOrder(long orderId)
+        public async Task<IActionResult> MyOrder(long orderId)
         {
             var order = await _buyerService.GetOrder(orderId);
             return View(order);
+        }
+
+
+        public async Task<IActionResult> MyOrders()
+        {
+            var orders = await _buyerService.GetOrders(User);
+            return View(orders);
         }
 
         public async Task<IActionResult> Index()
