@@ -30,7 +30,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Data
                     {
                         Id = 1,
                         City = "Zagreb",
-                        Created = DateTime.Now,
+                        Created = new DateTime(2024, 5, 22),
                         Country = "Hrvatska",
                         Street = "Maksimirska",
                         Number = "100",
@@ -44,7 +44,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Data
                     new Company
                     {
                         Id = 1,
-                        Created = DateTime.Now,
+                        Created = new DateTime(2024, 5, 22),
                         AddressId = 1,
                         FullName = "Tvrtka d.o.o.",
                         ShortName = "Tvrtka",

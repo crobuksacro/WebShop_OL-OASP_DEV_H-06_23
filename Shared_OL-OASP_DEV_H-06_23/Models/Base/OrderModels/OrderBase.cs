@@ -3,7 +3,7 @@
     public class OrderBase
     {
 
-        public string Message { get; set; }
+        public string? Message { get; set; }
 
     }
 }
