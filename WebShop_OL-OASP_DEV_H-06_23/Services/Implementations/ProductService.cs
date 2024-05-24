@@ -91,7 +91,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<ProductCategoryViewModel> AddProductCategory(ProductCategoryBinding model)
+        public async Task<ProductCategoryViewModel> AddProductItem(ProductCategoryBinding model)
         {
             var company = await db.Companys.FirstOrDefaultAsync(y => y.Valid);
             var dbo = mapper.Map<ProductCategory>(model);

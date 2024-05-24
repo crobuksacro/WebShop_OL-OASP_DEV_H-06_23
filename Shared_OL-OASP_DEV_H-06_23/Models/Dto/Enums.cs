@@ -6,4 +6,16 @@
         public const string Buyer = "Buyer";
     }
 
+
+    public enum QuantityType
+    {
+        Day = 1,
+        Month, 
+        Year, 
+        Kg, 
+        L, 
+        Dg, 
+        Item
+    }
+
 }

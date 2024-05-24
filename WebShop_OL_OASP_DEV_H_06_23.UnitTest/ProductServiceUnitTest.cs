@@ -54,7 +54,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.UnitTest
         public async void AddProductCategory_AddsNewEntityToDb_ReturnsViewModel()
         {
 
-            var response = await productService.AddProductCategory(new ProductCategoryBinding
+            var response = await productService.AddProductItem(new ProductCategoryBinding
             {
                 Name = TestString,
                 Description = TestString,

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebShop_OL_OASP_DEV_H_06_23.Data;
 
@@ -11,9 +12,11 @@ using WebShop_OL_OASP_DEV_H_06_23.Data;
 namespace WebShop_OL_OASP_DEV_H_06_23.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240524161757_QunatityTypeMigration")]
+    partial class QunatityTypeMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -402,7 +405,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Data.Migrations
                     b.Property<decimal>("Quantity")
                         .HasColumnType("decimal(9,2)");
 
-                    b.Property<int?>("QuantityType")
+                    b.Property<int?>("QunatityType")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Updated")

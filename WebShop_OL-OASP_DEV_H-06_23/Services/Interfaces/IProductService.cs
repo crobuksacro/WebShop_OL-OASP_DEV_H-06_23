@@ -22,7 +22,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        Task<ProductCategoryViewModel> AddProductCategory(ProductCategoryBinding model);
+        Task<ProductCategoryViewModel> AddProductItem(ProductCategoryBinding model);
         /// <summary>
         /// Delete Product Category
         /// </summary>

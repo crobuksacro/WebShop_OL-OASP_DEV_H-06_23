@@ -49,7 +49,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(ProductCategoryBinding model)
         {
-            await _productService.AddProductCategory(model);
+            await _productService.AddProductItem(model);
             return RedirectToAction("Index");
         }
 
@@ -69,7 +69,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
 
 
 
-        public async Task<IActionResult> AddProductCategory(long categoryId)
+        public async Task<IActionResult> AddProductItem(long categoryId)
         {
             var model = new ProductItemBinding
             {
@@ -80,7 +80,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProductCategory(ProductItemBinding model)
+        public async Task<IActionResult> AddProductItem(ProductItemBinding model)
         {
 
             await _productService.AddProductItem(model);
@@ -100,7 +100,9 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
         public async Task<IActionResult> EditProductItem(ProductItemUpdateBinding model)
         {
             var response = await _productService.UpdateProductItem(model);
-            return RedirectToAction("Details", new { id = response.ProductCategoryId });
+            //return RedirectToAction("Details", new { id = response.ProductCategoryId });
+            return RedirectToAction("EditProductItem", new { id = model.Id });
+
         }
 
         public async Task<IActionResult> Edit(long id)
