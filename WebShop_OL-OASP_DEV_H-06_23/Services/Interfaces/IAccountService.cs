@@ -20,6 +20,6 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-       Task<ApplicationUserViewModel> GetUserProfile(ClaimsPrincipal user);
+       Task<ApplicationUserViewModel> GetUserProfileAsync(ClaimsPrincipal user);
     }
 }

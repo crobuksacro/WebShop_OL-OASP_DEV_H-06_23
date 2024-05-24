@@ -32,7 +32,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async Task<ApplicationUserViewModel> GetUserProfile(ClaimsPrincipal user)
+        public async Task<ApplicationUserViewModel> GetUserProfileAsync(ClaimsPrincipal user)
         {
 
             var dbo = await db.Users

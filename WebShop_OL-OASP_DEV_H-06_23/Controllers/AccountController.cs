@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared_OL_OASP_DEV_H_06_23.Models.Binding.AccountModels;
 using Shared_OL_OASP_DEV_H_06_23.Models.Dto;
-using WebShop_OL_OASP_DEV_H_06_23.Services.Implementations;
 using WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces;
 
 namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
@@ -33,7 +32,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Controllers
         [Authorize]
         public async Task<IActionResult> MyProfile()
         {
-            var profile = accountService.GetUserProfile(User);
+            var profile =await accountService.GetUserProfileAsync(User);
             return View(profile);
         }
 
