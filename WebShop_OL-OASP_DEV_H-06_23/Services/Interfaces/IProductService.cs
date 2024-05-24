@@ -6,6 +6,11 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces
     public interface IProductService
     {
         /// <summary>
+        /// Gets all Quantity Types for product
+        /// </summary>
+        /// <returns></returns>
+        Task<List<QuantityTypeViewModel>> GetQuantityTypes();
+        /// <summary>
         /// Get all product items
         /// </summary>
         /// <param name="notOlderThen"></param>

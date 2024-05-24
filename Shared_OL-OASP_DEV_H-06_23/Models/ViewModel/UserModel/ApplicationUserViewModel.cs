@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Shared_OL_OASP_DEV_H_06_23.Models.ViewModel.Common;
+using System.ComponentModel.DataAnnotations;
+using System.Net;
 
 namespace Shared_OL_OASP_DEV_H_06_23.Models.ViewModel.UserModel
 {
@@ -10,6 +12,6 @@ namespace Shared_OL_OASP_DEV_H_06_23.Models.ViewModel.UserModel
         [Display(Name = "Prezime")]
         public string LastName { get; set; }
         public DateTime? RegistrationDate { get; set; }
-
+        public AddressViewModel? Address { get; set; }
     }
 }

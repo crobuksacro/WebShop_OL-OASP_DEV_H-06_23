@@ -23,6 +23,21 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
             this.mapper = mapper;
             this.appSettings = appSettings.Value;
         }
+        /// <summary>
+        /// Gets all Quantity Types for product
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<QuantityTypeViewModel>> GetQuantityTypes()
+        {
+            var dbos = await db.QuantityTypes.Where(y=>y.Valid).ToListAsync();
+            if (!dbos.Any())
+            {
+                return new List<QuantityTypeViewModel>();
+            }
+
+            return dbos.Select(y=> mapper.Map<QuantityTypeViewModel>(y)).ToList();
+
+        }
 
         /// <summary>
         /// Get product Categorys

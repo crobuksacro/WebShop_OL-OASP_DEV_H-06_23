@@ -28,6 +28,20 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
         }
 
         /// <summary>
+        /// Get current user profile
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<ApplicationUserViewModel> GetUserProfile(ClaimsPrincipal user)
+        {
+
+            var dbo = await db.Users
+                .Include(y=>y.Address)
+                .FirstOrDefaultAsync(y => y.Id == userManager.GetUserId(user)); 
+            return mapper.Map<ApplicationUserViewModel>(dbo);
+        }
+
+        /// <summary>
         /// Get user user address
         /// </summary>
         /// <param name="user"></param>

@@ -20,7 +20,7 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Mapping
     {
         public MappingProfile()
         {
-
+            CreateMap<QuantityType, QuantityTypeViewModel>();
             CreateMap<OrderUpdateBinding, Order>();
             CreateMap<OrderBinding, Order>();
             CreateMap<Order, OrderViewModel>();

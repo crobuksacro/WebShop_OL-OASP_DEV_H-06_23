@@ -15,5 +15,11 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Interfaces
         Task<AddressViewModel> GetUserAddress(ClaimsPrincipal user);
         Task<bool> CreateUser(RegistrationBinding model, string role);
         Task<List<ApplicationUserViewModel>> GetRegUsers(DateTime? notBefore = null);
+        /// <summary>
+        /// Get current user profile
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+       Task<ApplicationUserViewModel> GetUserProfile(ClaimsPrincipal user);
     }
 }
