@@ -28,6 +28,25 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
         }
 
         /// <summary>
+        /// Updates user profile
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async Task<ApplicationUserViewModel> UpdateUserProfileAsync(ApplicationUserUpdateBinding model)
+        {
+           
+            
+
+            var applicationUser =await db.Users
+                .Include(y=>y.Address)
+                .FirstOrDefaultAsync(y => y.Id == model.Id);
+            mapper.Map(model, applicationUser);
+            await db.SaveChangesAsync();
+            return mapper.Map<ApplicationUserViewModel>(applicationUser);
+
+        }
+
+        /// <summary>
         /// Get current user profile
         /// </summary>
         /// <param name="user"></param>
@@ -40,6 +59,22 @@ namespace WebShop_OL_OASP_DEV_H_06_23.Services.Implementations
                 .FirstOrDefaultAsync(y => y.Id == userManager.GetUserId(user)); 
             return mapper.Map<ApplicationUserViewModel>(dbo);
         }
+
+        /// <summary>
+        /// Get User Profile Async with dif. response view model
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public async Task<T> GetUserProfileAsync<T>(ClaimsPrincipal user)
+        {
+
+            var dbo = await db.Users
+                .Include(y => y.Address)
+                .FirstOrDefaultAsync(y => y.Id == userManager.GetUserId(user));
+            return mapper.Map<T>(dbo);
+        }
+
 
         /// <summary>
         /// Get user user address
